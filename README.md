@@ -58,7 +58,7 @@ void dispose() {
 
 Status
 ------
-Version 0.0.1 is under development
+Version 0.0.1 is released
 
 Note
 ------
