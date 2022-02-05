@@ -1,6 +1,6 @@
 Resonance
 ====
-Resonance is flutter volume controller plugin
+Resonance is flutter volume controller and vibration plugin
 
 ![](static/resonance.png)
 
@@ -13,7 +13,7 @@ Features
 - Set mute volume level
 - Showing volume UI (Android only)
 - Volume stream types (music, notification, alarm, etc.)
-- Listenable volume changes
+- Listenable volume level
 
 Usage
 -----
@@ -21,24 +21,26 @@ Usage
 Get current volume level
 
 ```dart
-var crntVol = await Resonance.getCurrentVolumeLevel();
+/// [streamType] by the default is set to [StreamType.music]
+var crntVol = await Resonance.getCurrentVolumeLevel(streamType: StreamType.alarm);
 print(crntVol);
 ```
 
 Set volume level
 
 ```dart
-/// [showVolumeUI] default parameter set to false
+/// [showVolumeUI] by the default is set to false
 var crntVol = await Resonance.setVolumeLevel(0.5, showVolumeUI: true);
 print(crntVol);
 ```
 
-Add listener
+Listener
 
 ```dart
 @override
 void initState() {
     super.initState();
+    /// Add listener
     Resonance().addListener((volume) {
         setState(() {
             _volumeLevel = volume;
@@ -56,11 +58,12 @@ void dispose() {
 
 Status
 ------
-Version 1.0.0 is under development
+Version 0.0.1 is under development
 
 Note
 ------
-Currently, plugin only available only for Android devices
+Currently, the plugin only available for Android.
+Pull requests and contributors are welcome.
 
 Developer
 ------
@@ -76,7 +79,7 @@ License
 ```
 MIT License
 
-Copyright (c) 2022 Tegar Bangun Suganda, ASTARIA.
+Copyright (c) 2022 Tegar Bangun Suganda (ASTARIA)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

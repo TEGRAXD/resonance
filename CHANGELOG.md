@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.0.1 (2022-02-05)
 
-* TODO: Describe initial release.
+* Initial release, currently only work for Android.

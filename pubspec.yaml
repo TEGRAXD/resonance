@@ -1,7 +1,7 @@
 name: resonance
-description: A new Flutter project.
+description: Resonance is flutter volume controller and vibration plugin
 version: 0.0.1
-homepage:
+homepage: https://github.com/suganda8/resonance.git
 
 environment:
   sdk: ">=2.15.1 <3.0.0"
