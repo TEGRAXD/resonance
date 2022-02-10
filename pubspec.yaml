@@ -1,6 +1,6 @@
 name: resonance
-description: Resonance is flutter volume controller and vibration plugin
-version: 0.0.1
+description: Resonance is volume controller and vibration plugin
+version: 1.0.2
 homepage: https://github.com/suganda8/resonance.git
 
 environment:
