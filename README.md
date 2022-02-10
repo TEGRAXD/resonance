@@ -1,6 +1,6 @@
 # Resonance
 
-Resonance is volume and vibration controller plugin
+Resonance is volume controller and vibration plugin
 
 ![](static/resonance.png)
 
