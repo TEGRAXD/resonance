@@ -91,7 +91,7 @@ await Resonance.vibrationCancel();
 
 ## Status
 
-Version 1.0.2 is released
+Version 1.0.3 is under development
 
 ## Note
 
