@@ -10,6 +10,7 @@ Get the latest plugin directly from [Pub.dev][1].
 
 ## Features
 
+### Volume Control
 - Get current volume level
 - Get max volume level
 - Set volume level
@@ -17,7 +18,12 @@ Get the latest plugin directly from [Pub.dev][1].
 - Set mute volume level
 - Showing volume UI (Android only)
 - Volume stream types (music, notification, alarm, etc.)
-- Listenable volume level
+- Listenable volume level change
+
+### Vibration
+- Create Vibration
+- Create Pattern Vibration
+- Cancel Pattern Vibration
 
 ## Usage
 
@@ -67,17 +73,17 @@ void dispose() {
 await Resonance.vibrate(duration: const Duration(milliseconds: 1000));
 ```
 
-- Create vibration pattern
+- Create pattern vibration 
 
 ```dart
 await Resonance.vibratePattern(
     [0, 400, 1000, 600, 1000, 800],
-    amplitude: 255,
-    repeat: false,
+    amplitude: 255, // Default: null
+    repeat: false, // Default: false
 );
 ```
 
-- Cancel active vibration pattern
+- Cancel active pattern vibration
 
 ```dart
 await Resonance.vibrationCancel();
