@@ -69,7 +69,7 @@ await Resonance.vibrate(duration: const Duration(milliseconds: 1000));
 
 - Create vibration pattern
 
-```dart\\
+```dart
 await Resonance.vibratePattern(
     [0, 400, 1000, 600, 1000, 800],
     amplitude: 255,
