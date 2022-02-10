@@ -17,7 +17,6 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.provider.Settings
-import android.util.Log
 import androidx.core.content.ContextCompat.getSystemService
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -142,7 +141,6 @@ class ResonancePlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHand
       "vibrate" -> {
         val durationValueArg: Int = call.argument("vibration_duration") ?: 400
         val vibrator = getSystemService(context, Vibrator::class.java) as Vibrator
-        Log.e("TAG", durationValueArg.toString())
         if (vibrator.hasVibrator()) {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(durationValueArg.toLong(), VibrationEffect.DEFAULT_AMPLITUDE))
@@ -166,8 +164,6 @@ class ResonancePlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHand
 
               val vibrationAmplitudes: MutableList<Int> = mutableListOf()
               vibrationPatternValueArg.forEachIndexed { index, _ -> if ((index % 2) == 0) vibrationAmplitudes.add(0) else vibrationAmplitudes.add(vibrationAmplitudeValueArgs) }
-
-              Log.e("TAG", vibrationAmplitudes.toString())
 
               vibrator.vibrate(VibrationEffect.createWaveform(vibrationPatternValueArg.map { it.toLong() }.toLongArray(), vibrationAmplitudes.toIntArray(), vibrationRepeatValueArg))
             } else {
