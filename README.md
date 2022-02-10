@@ -91,7 +91,7 @@ await Resonance.vibrationCancel();
 
 ## Status
 
-Version 1.0.2 is under development
+Version 1.0.2 is released
 
 ## Note
 
@@ -109,7 +109,7 @@ Future\<double> | volumeSetMuteLevel(StreamType streamType, bool showVolumeUI) |
 StreamSubscription\<double> | addVolumeListener(Function(double volume) function) | Add volume change listener to handle given callback.
 void | removeVolumeListener() | Cancel listener from broadcast stream
 Future\<bool> | vibrate(Duration? duration) | Create vibration by certain duration, default duration is 400ms and returns boolean status.
-Future\<bool> | vibratePattern(List\<int> pattern, int? amplitude, bool repeat,) | create vibration by given custom pattern, amplitude, and repeat.
+Future\<bool> | vibratePattern(List\<int> pattern, int? amplitude, bool repeat,) | Create vibration by given custom pattern, amplitude, and repeat.
 Future\<bool> | vibrationCancel() | Cancel any active repeated vibration and returns boolean status.
 
 ## Developer
