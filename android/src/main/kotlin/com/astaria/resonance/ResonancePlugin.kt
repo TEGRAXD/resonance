@@ -13,7 +13,12 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 import android.media.AudioManager
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.provider.Settings
+import android.util.Log
+import androidx.core.content.ContextCompat.getSystemService
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 
@@ -90,7 +95,7 @@ class ResonancePlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHand
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     val streamTypeArg: Int = call.argument("stream_type") ?: -1
     when (call.method) {
-      "getCurrentVolumeLevel" -> {
+      "volumeGetCurrentLevel" -> {
         val crntVolumeLevel: Double = Volume.getCurrentVolumeLevel(context, streamTypeArg)
         if (crntVolumeLevel != -1.0) {
           result.success(crntVolumeLevel)
@@ -98,7 +103,7 @@ class ResonancePlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHand
           result.error("801", "Bad Stream Type", null)
         }
       }
-      "getMaxVolumeLevel" -> {
+      "volumeGetMaxLevel" -> {
         val maxVolumeLevel: Double = Volume.getMaxVolumeLevel(context, streamTypeArg)
         if (maxVolumeLevel != -1.0) {
           result.success(maxVolumeLevel)
@@ -106,7 +111,7 @@ class ResonancePlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHand
           result.error("802", "Bad Stream Type", null)
         }
       }
-      "setVolumeLevel" -> {
+      "volumeSetLevel" -> {
         val volumeValueArg: Double = call.argument("volume_value")!!
         val showVolumeUIValueArg: Int = call.argument("show_volume_ui")!!
         val crntVolumeLevel: Double = Volume.setVolumeLevel(context, streamTypeArg, volumeValueArg, showVolumeUIValueArg)
@@ -116,7 +121,7 @@ class ResonancePlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHand
           result.error("803", "Bad Stream Type", null)
         }
       }
-      "setMaxVolumeLevel" -> {
+      "volumeSetMaxLevel" -> {
         val showVolumeUIValueArg: Int = call.argument("show_volume_ui")!!
         val crntVolumeLevel: Double = Volume.setMaxVolumeLevel(context, streamTypeArg, showVolumeUIValueArg)
         if (crntVolumeLevel != -1.0) {
@@ -125,13 +130,64 @@ class ResonancePlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHand
           result.error("804", "Bad Stream Type", null)
         }
       }
-      "setMuteVolumeLevel" -> {
+      "volumeSetMuteLevel" -> {
         val showVolumeUIValueArg: Int = call.argument("show_volume_ui")!!
         val crntVolumeLevel: Double = Volume.setMuteVolumeLevel(context, streamTypeArg, showVolumeUIValueArg)
         if (crntVolumeLevel != -1.0) {
           result.success(crntVolumeLevel)
         } else {
           result.error("805", "Bad Stream Type", null)
+        }
+      }
+      "vibrate" -> {
+        val durationValueArg: Int = call.argument("vibration_duration") ?: 400
+        val vibrator = getSystemService(context, Vibrator::class.java) as Vibrator
+        Log.e("TAG", durationValueArg.toString())
+        if (vibrator.hasVibrator()) {
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(durationValueArg.toLong(), VibrationEffect.DEFAULT_AMPLITUDE))
+          } else {
+            vibrator.vibrate(durationValueArg.toLong())
+          }
+          result.success(true)
+        } else {
+          result.error("901", "Device doesn't have vibrator", null)
+        }
+      }
+      "vibratePattern" -> {
+        val vibrationPatternValueArg: ArrayList<Int> = call.argument("vibration_pattern")!!
+        val vibrationAmplitudeValueArgs: Int = call.argument("vibration_amplitude") ?: VibrationEffect.DEFAULT_AMPLITUDE
+        val vibrationRepeatValueArg: Int = call.argument("vibration_repeat")!!
+
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (vibrator.hasAmplitudeControl()) {
+
+              val vibrationAmplitudes: MutableList<Int> = mutableListOf()
+              vibrationPatternValueArg.forEachIndexed { index, _ -> if ((index % 2) == 0) vibrationAmplitudes.add(0) else vibrationAmplitudes.add(vibrationAmplitudeValueArgs) }
+
+              Log.e("TAG", vibrationAmplitudes.toString())
+
+              vibrator.vibrate(VibrationEffect.createWaveform(vibrationPatternValueArg.map { it.toLong() }.toLongArray(), vibrationAmplitudes.toIntArray(), vibrationRepeatValueArg))
+            } else {
+              vibrator.vibrate(VibrationEffect.createWaveform(vibrationPatternValueArg.map { it.toLong() }.toLongArray(), vibrationRepeatValueArg))
+            }
+          } else {
+            vibrator.vibrate(vibrationPatternValueArg.map { it.toLong() }.toLongArray(), vibrationRepeatValueArg)
+          }
+          result.success(true)
+        } else {
+          result.error("902", "Device doesn't have vibrator", null)
+        }
+      }
+      "vibrationCancel" -> {
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+          vibrator.cancel()
+          result.success(true)
+        } else {
+          result.error("903", "Device doesn't have vibrator", null)
         }
       }
       else -> {

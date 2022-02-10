@@ -1,11 +1,15 @@
-Resonance
-====
-Resonance is flutter volume controller and vibration plugin
+# Resonance
+
+Resonance is volume and vibration controller plugin
 
 ![](static/resonance.png)
 
-Features
------
+## Download
+
+Get the latest plugin directly from [Pub.dev][1].
+
+## Features
+
 - Get current volume level
 - Get max volume level
 - Set volume level
@@ -15,58 +19,95 @@ Features
 - Volume stream types (music, notification, alarm, etc.)
 - Listenable volume level
 
-Usage
------
+## Usage
 
-Get current volume level
+- Get current volume level
 
 ```dart
 /// [streamType] by the default is set to [StreamType.music]
-var crntVol = await Resonance.getCurrentVolumeLevel(streamType: StreamType.alarm);
+var crntVol = await Resonance.volumeGetCurrentLevel(streamType: StreamType.alarm);
 print(crntVol);
 ```
 
-Set volume level
+- Set volume level
 
 ```dart
 /// [showVolumeUI] by the default is set to false
-var crntVol = await Resonance.setVolumeLevel(0.5, showVolumeUI: true);
+var crntVol = await Resonance.volumeSetLevel(0.5, showVolumeUI: true);
 print(crntVol);
 ```
 
-Listener
+- Add volume listener
 
 ```dart
+double _volumeLevel = 0;
+
 @override
 void initState() {
-    super.initState();
-    /// Add listener
-    Resonance().addListener((volume) {
+    /// Add listener inside initState
+    Resonance().addVolumeListener((volume) {
         setState(() {
             _volumeLevel = volume;
         });
     });
+    super.initState();
 }
 
 @override
 void dispose() {
-    /// Don't forget to use [removeListener] after
-    Resonance().removeListener();
+    /// Don't forget to use [removeVolumeListener] after
+    Resonance().removeVolumeListener();
     super.dispose();
 }
 ```
 
-Status
-------
-Version 0.0.1 is released
+- Create one-shot vibration by certain duration
 
-Note
-------
-Currently, the plugin only available for Android.
-Pull requests and contributors are welcome.
+```dart
+await Resonance.vibrate(duration: const Duration(milliseconds: 1000));
+```
 
-Developer
-------
+- Create vibration pattern
+
+```dart\\
+await Resonance.vibratePattern(
+    [0, 400, 1000, 600, 1000, 800],
+    amplitude: 255,
+    repeat: false,
+);
+```
+
+- Cancel active vibration pattern
+
+```dart
+await Resonance.vibrationCancel();
+```
+
+## Status
+
+Version 1.0.1 is under development
+
+## Note
+
+Only work for Android.
+
+## API
+
+Return | Method | Description
+--------------- | --- | ---
+Future\<double> | volumeGetCurrentLevel(StreamType streamType) | Returns device's current volume level.
+Future\<double> | volumeGetMaxLevel(StreamType streamType) | Returns device's maximum volume level.
+Future\<double> | volumeSetLevel(double volumeValue, StreamType streamType, bool showVolumeUI) | Set device's volume level to given volumeValue parameter and returns current volume level.
+Future\<double> | volumeSetMaxLevel(StreamType streamType, bool showVolumeUI) | Set device's volume level to maximum and returns current volume level.
+Future\<double> | volumeSetMuteLevel(StreamType streamType, bool showVolumeUI) | Set device's volume level to minimum or muted and returns current volume level.
+StreamSubscription\<double> | addVolumeListener(Function(double volume) function) | Add volume change listener to handle given callback.
+void | removeVolumeListener() | Cancel listener from broadcast stream
+Future\<bool> | vibrate(Duration? duration) | Create vibration by certain duration, default duration is 400ms and returns boolean status.
+Future\<bool> | vibratePattern(List\<int> pattern, int? amplitude, bool repeat,) | create vibration by given custom pattern, amplitude, and repeat.
+Future\<bool> | vibrationCancel() | Cancel any active repeated vibration and returns boolean status.
+
+## Developer
+
 ```
 Tegar Bangun Suganda
 ```
@@ -74,8 +115,8 @@ Tegar Bangun Suganda
 [@canaryv8][2] (Twitter)\
 [@suganda8][3] (Github)
 
-License
--------
+## License
+
 ```
 MIT License
 
@@ -100,5 +141,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+[1]: https://pub.dev/packages/resonance
 [2]: https://twitter.com/canaryv8
 [3]: https://github.com/suganda8

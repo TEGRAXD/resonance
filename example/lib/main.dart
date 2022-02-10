@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Resonance().addListener((volume) {
+    Resonance().addVolumeListener((volume) {
       setState(() {
         _volumeLevel = volume;
       });
@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    Resonance().removeListener();
+    Resonance().removeVolumeListener();
     super.dispose();
   }
 
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
               Text('Current volume on: ${_volumeLevel.toStringAsFixed(2)}\n'),
               ElevatedButton(
                 onPressed: () async {
-                  var volume = await Resonance.getCurrentVolumeLevel();
+                  var volume = await Resonance.volumeGetCurrentLevel();
                   setState(() {
                     _volumeLevel = volume;
                   });
@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
               ElevatedButton(
                 onPressed: () async {
                   var volume =
-                      await Resonance.setVolumeLevel(0.5, showVolumeUI: true);
+                      await Resonance.volumeSetLevel(0.5, showVolumeUI: true);
                   setState(() {
                     _volumeLevel = volume;
                   });
@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  var volume = await Resonance.setMaxVolumeLevel();
+                  var volume = await Resonance.volumeSetMaxLevel();
                   setState(() {
                     _volumeLevel = volume;
                   });
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  var volume = await Resonance.setMuteVolumeLevel();
+                  var volume = await Resonance.volumeSetMuteLevel();
                   setState(() {
                     _volumeLevel = volume;
                   });
@@ -93,7 +93,7 @@ class _MyAppState extends State<MyApp> {
               Text('\nMax Volume : $_getMaxVolumeLevel\n'),
               ElevatedButton(
                 onPressed: () async {
-                  var volume = await Resonance.getMaxVolumeLevel();
+                  var volume = await Resonance.volumeGetMaxLevel();
                   setState(() {
                     _getMaxVolumeLevel = volume;
                   });
@@ -111,6 +111,38 @@ class _MyAppState extends State<MyApp> {
                 },
                 child: const Text(
                   'Reset',
+                ),
+              ),
+              const Divider(
+                thickness: 1.0,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await Resonance.vibrate(
+                      duration: const Duration(milliseconds: 2000));
+                },
+                child: const Text(
+                  'Vibrate',
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await Resonance.vibratePattern(
+                    [0, 400, 1000, 600, 1000, 800],
+                    amplitude: 100,
+                    repeat: true,
+                  );
+                },
+                child: const Text(
+                  'Patterned Vibrate',
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await Resonance.vibrationCancel();
+                },
+                child: const Text(
+                  'Cancel Vibrate',
                 ),
               ),
             ],

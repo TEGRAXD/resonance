@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getCurrentVolumeLevel', () async {
-    expect(await Resonance.getCurrentVolumeLevel(), 0.45);
+    expect(await Resonance.volumeGetCurrentLevel(), 0.45);
   });
 }
