@@ -70,10 +70,10 @@ jobs:
         working-directory: ./example
         run: flutter analyze .
 
-      # Run widget tests for our flutter project.
-      - name: Analizing errors
+      # Run widget tests for flutter project.
+      - name: Widget Tests
         working-directory: ./example
-      - run: flutter test
+        run: flutter test
 
       # Build apk.
       - name: Building apk
