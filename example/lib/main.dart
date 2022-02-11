@@ -39,10 +39,11 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Resonance'),
         ),
-        body: Center(
+        body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Padding(padding: EdgeInsets.only(top: 12.0)),
               const Text('Try to change volume by pressing hardware button\n'),
               Text('Current volume on: ${_volumeLevel.toStringAsFixed(2)}\n'),
               ElevatedButton(
