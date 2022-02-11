@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       # Note: This workflow uses the latest stable version of the Dart SDK.
       # You can specify other versions if desired, see documentation here:
@@ -79,9 +79,12 @@ jobs:
         run: flutter build apk --release
       
       # Upload generated apk to the artifacts.
+      # When setting a default working directory for jobs, the default directory is only used by commands that use 'run'.
+      # Hence all of the 'uses' actions are run in the base directory.
+      # Fixed the issue by changing the path from 'build/' to 'project_name/build'.
       - uses: actions/upload-artifact@v2
         with:
           name: release-apk
           # There are 2 paths and lead to same file (Under outputs and flutter-apk)
           # path: build/app/outputs/apk/release/app-release.apk
-          path: ./example/build/app/flutter-apk/app-release.apk
+          path: resonance/example/build/app/flutter-apk/app-release.apk
