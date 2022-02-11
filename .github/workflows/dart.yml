@@ -35,48 +35,46 @@ jobs:
           channel: 'stable' # 'dev', 'alpha', default to: 'stable'
           # flutter-version: '1.12.x' # you can also specify exact version of flutter
 
-      - name: Install dependencies
+      # --------------------------------------------------------------------------------
+
+      - name: Plugin - Install dependencies
         run: flutter pub get
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
-      - name: Verify formatting
+      - name: Plugin - Verify formatting
         run: flutter format --set-exit-if-changed .
 
       # Statically analyze the Dart code for any errors.
-      - run: flutter analyze .
+      - name: Plugin - Analizing errors
+        run: flutter analyze .
 
       # Run widget tests for our flutter project.
-      - run: flutter test
+      - name: Plugin - Widget Tests
+        run: flutter test
       
       # --------------------------------------------------------------------------------
-      
-      # Setup the flutter environment.
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable' # 'dev', 'alpha', default to: 'stable'
-          # flutter-version: '1.12.x' # you can also specify exact version of flutter
 
-      - name: Install dependencies
+      - name: Example - Install dependencies
         working-directory: ./example
         run: flutter pub get
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
-      - name: Verify formatting
+      - name: Example - Verify formatting
         working-directory: ./example
         run: flutter format --set-exit-if-changed .
 
       # Statically analyze the Dart code for any errors.
-      - name: Analizing errors
+      - name: Example - Analizing errors
         working-directory: ./example
         run: flutter analyze .
 
       # Run widget tests for flutter project.
-      - name: Widget Tests
+      - name: Example - Widget Tests
         working-directory: ./example
         run: flutter test
 
       # Build apk.
-      - name: Building apk
+      - name: Example - Building apk
         working-directory: ./example
         run: flutter build apk
       
