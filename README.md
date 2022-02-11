@@ -1,4 +1,4 @@
-# Resonance
+# Resonance ![build](https://github.com/suganda8/resonance/actions/workflows/build.yml/badge.svg)
 
 Resonance is volume controller and vibration plugin
 
