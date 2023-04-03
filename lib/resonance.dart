@@ -19,25 +19,31 @@ class Resonance {
   /// Main channel constant
   static const String _mainChannel = 'com.astaria.resonance';
 
-  /// Method and Event channel constant name
+  /// Method channel constant name
   static const String _methodChannelName = '$_mainChannel.method';
+
+  /// Event channel constant name
   static const String _eventChannelName = '$_mainChannel.event';
 
   /// Method, Event, and BasicMessage are channels that used to communicate between native code and Flutter framework.
-  /// [MethodChannel] - "A named channel for communicating with platform plugins using asynchronous method calls."
+  ///
+  /// Channel for communicating with platform plugins using asynchronous method calls.
   static const MethodChannel _methodChannel = MethodChannel(_methodChannelName);
 
-  /// [EventChannel] - "A named channel for communicating with platform plugins using event streams."
+  /// Method, Event, and BasicMessage are channels that used to communicate between native code and Flutter framework.
+  ///
+  /// Channel for communicating with platform plugins using event streams.
   static const EventChannel _eventChannel = EventChannel(_eventChannelName);
 
   /// [StreamSubscription]
-  /// "A subscription on events from a Stream.
+  /// A subscription on events from a Stream.
   /// The subscription provides events to the listener, and holds the callbacks used to handle the events.
   /// The subscription can also be used to unsubscribe from the events, or to temporarily pause the events from the stream."
   StreamSubscription<double>? _subscription;
 
-  /// [volumeGetCurrentLevel] - "A method to get the current volume level from device"
-  /// [StreamType] - "Enum class that used to choose the type of volume stream such as alarm, media/music, notification volume level"
+  /// A method to get the current volume level from device.
+  ///
+  /// [streamType] - Type of volume stream such as alarm, media/music, notification volume level.
   static Future<double> volumeGetCurrentLevel({
     StreamType streamType = StreamType.music,
   }) async {
@@ -51,8 +57,9 @@ class Resonance {
     return volumeLevel ?? -1.0;
   }
 
-  /// [volumeGetMaxLevel] - "A method to get the max volume level from the device"
-  /// [StreamType] - "Enum class that used to choose the type of volume stream such as alarm, media/music, notification volume level"
+  /// A method to get the max volume level from the device.
+  ///
+  /// [streamType] - Type of volume stream such as alarm, media/music, notification volume level.
   static Future<double> volumeGetMaxLevel({
     StreamType streamType = StreamType.music,
   }) async {
@@ -66,16 +73,20 @@ class Resonance {
     return volumeLevel ?? -1.0;
   }
 
-  /// [volumeSetLevel] - "A method to set the volume level to the device"
-  /// [StreamType] - "Enum class that used to choose the type of volume stream such as alarm, media/music, notification volume level"
-  /// [showVolumeUI] - "A parameter to show system volume UI of the device when volume level changed, currently this feature only work for Android devices, yet the plugin doesn't even work with iOS devices"
+  /// Set the volume level to the device.
+  ///
+  /// [volumeValue] - Volume value. (Must be between 0 and 1)
+  ///
+  /// [streamType] - Type of volume stream such as alarm, media/music, notification volume level.
+  ///
+  /// [showVolumeUI] - Show system volume UI of the device when volume level changed. (For Android only)
   static Future<double> volumeSetLevel(
     double volumeValue, {
     StreamType streamType = StreamType.music,
     bool showVolumeUI = false,
   }) async {
     assert((volumeValue >= 0.0) && (volumeValue <= 1.0),
-        '[volumeValue] property must be between 0 and 1');
+        'volumeValue property must be between 0 and 1');
 
     final double? volumeLevel = await _methodChannel.invokeMethod(
       'volumeSetLevel',
@@ -89,9 +100,11 @@ class Resonance {
     return volumeLevel ?? -1.0;
   }
 
-  /// [volumeSetMaxLevel] - "A method to set the maximum volume level to the device"
-  /// [StreamType] - "Enum class that used to choose the type of volume stream such as alarm, media/music, notification volume level"
-  /// [showVolumeUI] - "A parameter to show system volume UI of the device when volume level changed, currently this feature only work for Android devices, yet the plugin doesn't even work with iOS devices"
+  /// Set the maximum volume level to the device.
+  ///
+  /// [streamType] - Type of volume stream such as alarm, media/music, notification volume level.
+  ///
+  /// [showVolumeUI] - Show system volume UI of the device when volume level changed. (For Android only)
   static Future<double> volumeSetMaxLevel({
     StreamType streamType = StreamType.music,
     bool showVolumeUI = false,
@@ -107,9 +120,11 @@ class Resonance {
     return volumeLevel ?? -1.0;
   }
 
-  /// [volumeSetMuteLevel] - "A method to set the minimum volume level or muting the device"
-  /// [StreamType] - "Enum class that used to choose the type of volume stream such as alarm, media/music, notification volume level"
-  /// [showVolumeUI] - "A parameter to show system volume UI of the device when volume level changed, currently this feature only work for Android devices, yet the plugin doesn't even work with iOS devices"
+  /// Set the minimum volume level or muting the device.
+  ///
+  /// [streamType] - Type of volume stream such as alarm, media/music, notification volume level.
+  ///
+  /// [showVolumeUI] - Show system volume UI of the device when volume level changed. (For Android only)
   static Future<double> volumeSetMuteLevel({
     StreamType streamType = StreamType.music,
     bool showVolumeUI = false,
@@ -125,8 +140,9 @@ class Resonance {
     return volumeLevel ?? -1.0;
   }
 
-  /// [addVolumeListener] - "A method to add a function as listener to subscription to handle callback everytime the value change from native code"
-  /// [function] - "A void function parameter to invoke given function when the broadcast stream received"
+  /// Add volume listener to subscription to handle callback.
+  ///
+  /// [function] - Callback function to invoke when the broadcast stream received.
   StreamSubscription<double> addVolumeListener(
     Function(double volume) function,
   ) {
@@ -136,12 +152,12 @@ class Resonance {
         .listen(function, onError: null);
   }
 
-  /// [removeVolumeListener] - "A method to cancel subscription to any broadcast stream from native code to avoid memory leaking"
+  /// Remove and cancel subscription to any broadcast stream from native code to avoid memory leak.
   void removeVolumeListener() => _subscription?.cancel();
 
-  /// [vibrate] - "A method to create vibration by some duration"
-  /// [duration] - "A parameter to define how long the vibration duration. Default duration is 400 milliseconds"
-  /// [status] - "A returned variable by invoking method. It returns either true or false value. True implying success and False implying an error occured"
+  /// Create standalone vibration by some duration.
+  ///
+  /// [duration] - Define how long the vibration duration in millisecond. (Default: 400ms)
   static Future<bool> vibrate({
     Duration? duration,
   }) async {
@@ -155,34 +171,23 @@ class Resonance {
     return status ?? false;
   }
 
-  /// [vibratePattern] - "A method to create vibration by given custom pattern and amplitude"
-  /// [pattern] - "A list of integers parameter to create custom vibration. Pattern must not given an empty list"
+  /// Create custombizable pattern and amplitude vibration.
   ///
-  /// Pattern example : [0, 400, 1000, 600, 1000, 800]
-  /// 0 (0 millisecond delay)
-  /// 400 (400 milliseconds vibration)
-  /// 1000 (1 second delay)
-  /// 600 (600 milliseconds vibration)
-  /// 1000 (1 second delay)
-  /// 800 (800 milliseconds vibration)
+  /// [pattern] - List of integers parameter to create custom vibration. Pattern must not given an empty list.
   ///
-  /// Odd index: Vibration duration
-  /// Even index: Delay / pause duration
-
-  /// [amplitude] - "An integer parameter to custom amplitude vibration. The value given must be an integer between 1-255"
-  /// [repeat] - "A boolean parameter to define vibration pattern repeat. Calling [vibrationCancel] method will stop any active repeated vibration"
-  /// [status] - "A returned variable by invoking method. It returns either true or false value. True implying success and False implying an error occured"
+  /// [amplitude] - Amplitude vibration. (The value given must be an integer between 1-255)
+  ///
+  /// [repeat] - Define vibration pattern repeat. Calling [vibrationCancel] method will stop any active repeated vibration.
   static Future<bool> vibratePattern(
     List<int> pattern, {
     int? amplitude,
     bool repeat = false,
   }) async {
-    assert(pattern.isNotEmpty,
-        '[pattern] parameter must not given an empty list.');
+    assert(pattern.isNotEmpty, 'pattern property must not given an empty list.');
 
     if (amplitude != null) {
       assert((amplitude >= 1) && (amplitude <= 255),
-          '[amplitude] parameter must be an integer between 1-255.');
+          'amplitude property must be an integer between 1-255.');
     }
 
     final bool? status = await _methodChannel.invokeMethod(
@@ -197,8 +202,7 @@ class Resonance {
     return status ?? false;
   }
 
-  /// [vibrationCancel] - "A method to stop any active repeated vibration. [vibrate] method will not canceled because it's already defined to stop at certain duration."
-  /// [status] - "A returned variable by invoking method. It returns either true or false value. True implying success and False implying an error occured"
+  /// Stop active vibration.
   static Future<bool> vibrationCancel() async {
     final bool? status = await _methodChannel.invokeMethod('vibrationCancel');
 

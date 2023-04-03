@@ -1,6 +1,6 @@
 # Resonance ![Dart](https://github.com/suganda8/resonance/actions/workflows/dart.yml/badge.svg)
 
-Resonance is volume controller and vibration plugin
+Resonance is volume controller and vibration plugin. This plugin workaround Android's volume and vibration controller. Using this plugin let you control volume without user interaction and more customable vibration pattern.
 
 ![](static/resonance.png)
 
@@ -91,7 +91,7 @@ await Resonance.vibrationCancel();
 
 ## Status
 
-Version 1.0.3 is under development
+Version 1.0.3 is released
 
 ## Note
 
@@ -124,9 +124,11 @@ Tegar Bangun Suganda
 ## License
 
 ```
+resonance
+
 MIT License
 
-Copyright (c) 2022 Tegar Bangun Suganda (ASTARIA)
+Copyright (c) 2022 Tegar Bangun Suganda (OVERMIND)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
