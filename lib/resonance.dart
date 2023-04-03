@@ -183,7 +183,8 @@ class Resonance {
     int? amplitude,
     bool repeat = false,
   }) async {
-    assert(pattern.isNotEmpty, 'pattern property must not given an empty list.');
+    assert(
+        pattern.isNotEmpty, 'pattern property must not given an empty list.');
 
     if (amplitude != null) {
       assert((amplitude >= 1) && (amplitude <= 255),
