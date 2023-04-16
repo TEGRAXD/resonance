@@ -1,12 +1,12 @@
 # Resonance ![Dart](https://github.com/suganda8/resonance/actions/workflows/dart.yml/badge.svg)
 
-Resonance is volume controller and vibration plugin. This plugin workaround Android's volume and vibration controller. Using this plugin let you control volume without user interaction and more customable vibration pattern.
+Resonance is volume and vibration controller plugin. This plugin based on the Android volume and vibration controller. The plugin let you control volume without user interaction and allow customable vibration pattern.
 
 ![](static/resonance.png)
 
 ## Download
 
-Get the latest plugin directly from [Pub.dev][1].
+Get the latest plugin directly from [Pub][1].
 
 ## Features
 
@@ -30,7 +30,6 @@ Get the latest plugin directly from [Pub.dev][1].
 - Get current volume level
 
 ```dart
-/// [streamType] by the default is set to [StreamType.music]
 var crntVol = await Resonance.volumeGetCurrentLevel(streamType: StreamType.alarm);
 print(crntVol);
 ```
@@ -38,7 +37,6 @@ print(crntVol);
 - Set volume level
 
 ```dart
-/// [showVolumeUI] by the default is set to false
 var crntVol = await Resonance.volumeSetLevel(0.5, showVolumeUI: true);
 print(crntVol);
 ```
@@ -50,7 +48,7 @@ double _volumeLevel = 0;
 
 @override
 void initState() {
-    /// Add listener inside initState
+    // Add listener
     Resonance().addVolumeListener((volume) {
         setState(() {
             _volumeLevel = volume;
@@ -61,7 +59,7 @@ void initState() {
 
 @override
 void dispose() {
-    /// Don't forget to use [removeVolumeListener] after
+    // Remove listener
     Resonance().removeVolumeListener();
     super.dispose();
 }

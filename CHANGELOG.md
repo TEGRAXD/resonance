@@ -6,6 +6,6 @@
 
 * Improving README.md and official icon, renaming volume controller method and add vibration method (one-time, pattern and repeat, cancel vibration).
 
-## 1.0.3 (2023-04-03)
+## 1.0.3 (2023-04-16)
 
 * Improving documentation readability
