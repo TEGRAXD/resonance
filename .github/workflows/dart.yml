@@ -42,7 +42,7 @@ jobs:
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
       - name: Plugin - Verify formatting
-        run: flutter format --set-exit-if-changed .
+        run: dart format --set-exit-if-changed .
 
       # Statically analyze the Dart code for any errors.
       - name: Plugin - Analizing errors
@@ -61,7 +61,7 @@ jobs:
       # Uncomment this step to verify the use of 'dart format' on each commit.
       - name: Example - Verify formatting
         working-directory: ./example
-        run: flutter format --set-exit-if-changed .
+        run: dart format --set-exit-if-changed .
 
       # Statically analyze the Dart code for any errors.
       - name: Example - Analizing errors
