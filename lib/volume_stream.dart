@@ -17,8 +17,6 @@ class VolumeStream {
         return 1;
       case StreamType.voiceCall:
         return 0;
-      default:
-        return -1;
     }
   }
 }

@@ -1,13 +1,8 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Dart
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, dev-1.0.4 ]
   pull_request:
     branches: [ master ]
 
@@ -18,70 +13,54 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Note: This workflow uses the latest stable version of the Dart SDK.
-      # You can specify other versions if desired, see documentation here:
-      # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      # - uses: dart-lang/setup-dart@v1
+      # Dart SDK setup
       - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
 
-      # Setup Java environment in order to build the Android app.
+      # Java setup
       - uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
+          java-version: '17.x'
 
-      # Setup the flutter environment.
+      # Flutter setup
       - uses: subosito/flutter-action@v1
         with:
-          channel: 'stable' # 'dev', 'alpha', default to: 'stable'
-          # flutter-version: '1.12.x' # you can also specify exact version of flutter
+          channel: 'stable'
 
-      # --------------------------------------------------------------------------------
-
+      # Plugin package tasks
       - name: Plugin - Install dependencies
         run: flutter pub get
 
-      # Uncomment this step to verify the use of 'dart format' on each commit.
       - name: Plugin - Verify formatting
         run: dart format --set-exit-if-changed .
 
-      # Statically analyze the Dart code for any errors.
       - name: Plugin - Analizing errors
         run: flutter analyze .
 
-      # Run widget tests for our flutter project.
       - name: Plugin - Widget Tests
         run: flutter test
-      
-      # --------------------------------------------------------------------------------
 
+      # Example app tasks
       - name: Example - Install dependencies
         working-directory: ./example
         run: flutter pub get
 
-      # Uncomment this step to verify the use of 'dart format' on each commit.
       - name: Example - Verify formatting
         working-directory: ./example
         run: dart format --set-exit-if-changed .
 
-      # Statically analyze the Dart code for any errors.
       - name: Example - Analizing errors
         working-directory: ./example
         run: flutter analyze .
 
-      # Run widget tests for flutter project.
       - name: Example - Widget Tests
         working-directory: ./example
         run: flutter test
 
-      # Build apk.
       - name: Example - Building apk
         working-directory: ./example
         run: flutter build apk --release
-      
-      # Upload generated apk to the artifacts.
-      - uses: actions/upload-artifact@v2
+
+      - uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          # There are 2 paths and lead to same file (Under outputs and flutter-apk)
-          # path: example/build/app/outputs/apk/release/app-release.apk
           path: example/build/app/outputs/flutter-apk/app-release.apk

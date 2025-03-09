@@ -9,6 +9,9 @@
 .history
 .svn/
 
+# Compiled generated object files C++ (Cmake)
+.cxx/
+
 # IntelliJ related
 *.iml
 *.ipr

@@ -15,11 +15,12 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that volume value is retrieved.
+    // Verify that default volume value is retrieved.
     expect(
       find.byWidgetPredicate(
         (Widget widget) =>
-            widget is Text && widget.data!.startsWith('Current volume on: '),
+            widget is Text &&
+            widget.data!.startsWith('Current volume on: 0.00'),
       ),
       findsOneWidget,
     );
