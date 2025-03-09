@@ -87,12 +87,10 @@ await Resonance.vibratePattern(
 await Resonance.vibrationCancel();
 ```
 
-## Status
-
-Version 1.0.3 is released
+## Version
+Version 1.0.4
 
 ## Note
-
 Only work for Android.
 
 ## API

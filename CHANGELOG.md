@@ -9,3 +9,9 @@
 ## 1.0.3 (2023-04-16)
 
 * Improving documentation readability
+
+## 1.0.4 (2025-03-10)
+
+* Fixed namespace is not specified
+* Upgrade example project gradle
+* Deprecated imperative apply of Flutter's Gradle plugins migration
