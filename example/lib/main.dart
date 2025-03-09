@@ -59,7 +59,8 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  var volume = await Resonance.volumeSetLevel(0.5, showVolumeUI: true);
+                  var volume =
+                      await Resonance.volumeSetLevel(0.5, showVolumeUI: true);
                   setState(() {
                     _volumeLevel = volume;
                   });
@@ -118,7 +119,8 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  await Resonance.vibrate(duration: const Duration(milliseconds: 2000));
+                  await Resonance.vibrate(
+                      duration: const Duration(milliseconds: 2000));
                 },
                 child: const Text(
                   'Vibrate',

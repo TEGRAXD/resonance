@@ -18,7 +18,9 @@ void main() {
     // Verify that default volume value is retrieved.
     expect(
       find.byWidgetPredicate(
-        (Widget widget) => widget is Text && widget.data!.startsWith('Current volume on: 0.00'),
+        (Widget widget) =>
+            widget is Text &&
+            widget.data!.startsWith('Current volume on: 0.00'),
       ),
       findsOneWidget,
     );
